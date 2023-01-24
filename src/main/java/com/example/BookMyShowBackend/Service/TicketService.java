@@ -3,10 +3,7 @@ package com.example.BookMyShowBackend.Service;
 
 import com.example.BookMyShowBackend.Converters.TicketConverter;
 import com.example.BookMyShowBackend.Models.*;
-import com.example.BookMyShowBackend.Repository.ShowRepository;
-import com.example.BookMyShowBackend.Repository.TheaterSeatRepository;
-import com.example.BookMyShowBackend.Repository.TicketRepository;
-import com.example.BookMyShowBackend.Repository.UserRepository;
+import com.example.BookMyShowBackend.Repository.*;
 import com.example.BookMyShowBackend.RequestDto.TicketRequestDto;
 import com.example.BookMyShowBackend.ResponceDto.TicketResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,8 @@ public class TicketService {
 
     @Autowired
     TicketRepository ticketRepository;
+    @Autowired
+    private ShowSeatRepository showSeatRepository;
 
     public TicketResponseDto bookTicket(TicketRequestDto ticketRequestDto) throws Exception{
 
@@ -67,5 +66,28 @@ for(ShowSeat showSeat:bookedSeats){
         ticketResponseDto.setSeatNumbers(requestSeats);
         ticketResponseDto.setTheaterName(shows.getTheater().getName());
         return ticketResponseDto;
+    }
+
+    public String deleteTicket(Integer id) {
+        try{
+            Ticket ticket = ticketRepository.findById(id).get();
+            if(ticket==null)
+                throw new Exception();
+            int refund = ticket.getAmount();
+            List<ShowSeat> bookedSeatList = ticket.getBookedSeats();
+            for(ShowSeat showSeat:bookedSeatList){
+                showSeat.setBooked(false);
+                showSeat.setTicket(null);
+                showSeat.setBookedAt(null);
+                showSeatRepository.save(showSeat);
+            }
+            ticket.setBookedSeats(null);
+            ticketRepository.save(ticket);
+            ticketRepository.delete(ticket);
+            return "successfully deleted the ticket and the refund amount is "+refund/2;
+        }
+        catch (Exception e){
+            return "Ticket Id is invalid";
+        }
     }
 }

@@ -17,13 +17,13 @@ public class UserConverter {
         return user;
     }
 
-    public static UserReponseDto convertEntityToDto(User userdto){
-        UserReponseDto user = UserReponseDto.builder().email(userdto.getEmail())
-                .phno(userdto.getPhno())
-                .password(userdto.getPassword())
-                .name(userdto.getName())
-                .id(userdto.getId()).build();
-        return user;
+    public static UserReponseDto convertEntityToDto(User user){
+        UserReponseDto userdto = UserReponseDto.builder().email(user.getEmail())
+                .phno(user.getPhno())
+                .password(user.getPassword())
+                .name(user.getName())
+                .id(user.getId()).build();
+        return userdto;
     }
 
     public static List<UserReponseDto> convertEntityListToDto(List<User> userList) {

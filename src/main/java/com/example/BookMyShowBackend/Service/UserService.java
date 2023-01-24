@@ -18,7 +18,6 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
     public void addUser(userRequestDto userDto) throws Exception{
-
         try{
             User user = UserConverter.convertDtoToEntity(userDto);
             userRepository.save(user);
@@ -26,7 +25,6 @@ public class UserService {
         catch (Exception e) {
             throw new Exception();
         }
-
     }
 
     public UserReponseDto getUserById(int id) throws Exception{
@@ -66,10 +64,10 @@ public class UserService {
         }
     }
 
-    public void deleteUser(String email) throws Exception {
+    public void deleteUser(String email,String password) throws Exception {
         try {
             User user = userRepository.findByemail(email);
-            if (user == null) throw new Exception();
+            if (user == null || user.getPassword().equals(password)==false) throw new Exception();
             userRepository.delete(user);
         } catch (Exception e) {
             throw new Exception();

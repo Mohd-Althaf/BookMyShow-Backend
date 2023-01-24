@@ -35,7 +35,6 @@ public class UserController {
     public ResponseEntity<UserReponseDto> getUserById(@RequestParam int id){
         try{
             return new ResponseEntity<>(userService.getUserById(id),HttpStatus.FOUND);
-
         }
         catch (Exception e){
             return  new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -68,13 +67,13 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser")
-    public ResponseEntity<String> deleteUser(@RequestParam("email") String email){
+    public ResponseEntity<String> deleteUser(@RequestParam("email") String email,@RequestParam String password){
         try{
-            userService.deleteUser(email);
+            userService.deleteUser(email,password);
             return new ResponseEntity<>("The given user is deleted successfull",HttpStatus.OK);
         }
         catch(Exception e){
-            return new ResponseEntity<>("The given user is not existing",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("The given user is not existing or the password is incorrect",HttpStatus.BAD_REQUEST);
         }
     }
 
