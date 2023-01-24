@@ -3,6 +3,7 @@ package com.example.BookMyShowBackend.Models;
 
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,9 @@ import java.util.List;
 @Table(name = "ticket_table")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Ticket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

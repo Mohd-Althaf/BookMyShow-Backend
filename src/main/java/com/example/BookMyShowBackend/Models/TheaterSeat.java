@@ -20,7 +20,7 @@ public class TheaterSeat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name="seatNo")
     private String seatNo;
 
     @Enumerated(value = EnumType.STRING)

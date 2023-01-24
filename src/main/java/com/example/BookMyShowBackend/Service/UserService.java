@@ -50,4 +50,29 @@ public class UserService {
         List<User> userList = userRepository.findAll();
         return UserConverter.convertEntityListToDto(userList);
     }
+
+    public void updateUser(userRequestDto userRequestDto) throws Exception {
+        try {
+            User user = userRepository.findByemail(userRequestDto.getEmail());
+            if(user==null)
+                throw new Exception();
+            user.setName(userRequestDto.getName());
+            user.setPhno(userRequestDto.getPhno());
+            user.setPassword(userRequestDto.getPassword());
+            userRepository.save(user);
+        }
+        catch (Exception e){
+            throw new Exception();
+        }
+    }
+
+    public void deleteUser(String email) throws Exception {
+        try {
+            User user = userRepository.findByemail(email);
+            if (user == null) throw new Exception();
+            userRepository.delete(user);
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
 }

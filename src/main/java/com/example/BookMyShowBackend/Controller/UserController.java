@@ -56,5 +56,27 @@ public class UserController {
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
+    @PutMapping("/updateUser")
+    public ResponseEntity<String> updateUser(@RequestBody userRequestDto userRequestDto){
+        try{
+            userService.updateUser(userRequestDto);
+            return new ResponseEntity<>("user is updated successfully"+userRequestDto,HttpStatus.ACCEPTED);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>("User is valid",HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<String> deleteUser(@RequestParam("email") String email){
+        try{
+            userService.deleteUser(email);
+            return new ResponseEntity<>("The given user is deleted successfull",HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>("The given user is not existing",HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }
