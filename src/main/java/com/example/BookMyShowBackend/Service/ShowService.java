@@ -8,6 +8,7 @@ import com.example.BookMyShowBackend.Repository.ShowRepository;
 import com.example.BookMyShowBackend.Repository.ShowSeatRepository;
 import com.example.BookMyShowBackend.Repository.TheaterRepository;
 import com.example.BookMyShowBackend.RequestDto.ShowRequestDto;
+import com.example.BookMyShowBackend.ResponceDto.ShowResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,5 +73,17 @@ public class ShowService {
         showSeatRepository.saveAll(showSeatList);
         return showSeatList;
 
+    }
+
+    public List<ShowResponseDto> getShowByMovieAndTheater(Integer movie, Integer theater) {
+        Movie movie1 = movieRepository.findById(movie).get();
+        List<Shows> showsList = showRepository.findBymovie(movie1);
+
+        List<Shows> shows = new ArrayList<>();
+        for(Shows shows1:showsList){
+            if(shows1.getTheater().getId()==theater)
+                shows.add(shows1);
+        }
+        return ShowConverter.convertEntityListToDto(shows);
     }
 }

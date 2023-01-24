@@ -39,4 +39,14 @@ public class TheaterController {
 
     }
 
+    @GetMapping("/getTheatersByCity")
+    public ResponseEntity<List<TheaterResponseDto>> getTheaterByCity(@RequestParam("city") String city){
+        return new ResponseEntity<>(theaterService.getTheatersByCity(city),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteById")
+    public ResponseEntity<String> deleteById(@RequestParam Integer id){
+        return new ResponseEntity<>(theaterService.deleteTheater(id),HttpStatus.ACCEPTED);
+    }
+
 }

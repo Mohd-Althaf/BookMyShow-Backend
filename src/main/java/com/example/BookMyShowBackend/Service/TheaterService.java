@@ -78,4 +78,21 @@ public class TheaterService {
         return TheaterConverter.convertEntityListToDtos(theaterList);
 
     }
+
+    public List<TheaterResponseDto> getTheatersByCity(String city) {
+        List<Theater> theaterList = theaterRepository.findByplace(city);
+        return TheaterConverter.convertEntityListToDtos(theaterList);
+    }
+
+    public String deleteTheater(Integer id) {
+        try{
+            Theater theater = theaterRepository.findById(id).get();
+            if(theater==null) throw new Exception();
+            theaterRepository.delete(theater);
+            return "successfully deleted the theater by theater id "+theater.getId();
+        }
+        catch (Exception e){
+            return "Given theaterId "+id+" is invalid";
+        }
+    }
 }
