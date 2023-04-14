@@ -51,8 +51,6 @@ public class ShowService {
 
         movieRepository.save(movie);
         theaterRepository.save(theater);
-
-        // showrepository.save(shows) will not be needed to called because parent save function is called.
         showRepository.save(shows);
         }
         catch (Exception e){
@@ -79,11 +77,11 @@ public class ShowService {
         Movie movie1 = movieRepository.findById(movie).get();
         List<Shows> showsList = showRepository.findBymovie(movie1);
 
-        List<Shows> shows = new ArrayList<>();
+        List<Shows> resultshows = new ArrayList<>();
         for(Shows shows1:showsList){
             if(shows1.getTheater().getId()==theater)
-                shows.add(shows1);
+                resultshows.add(shows1);
         }
-        return ShowConverter.convertEntityListToDto(shows);
+        return ShowConverter.convertEntityListToDto(resultshows);
     }
 }
